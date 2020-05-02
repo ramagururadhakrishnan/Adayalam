@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adayalam</title>
+
+    <!--BootStrap-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <!--CSS-->
+    <link rel="stylesheet" href="../css/styles.css" >
+    <!--icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--Font Awesome-->
+    <script
+      src="https://kit.fontawesome.com/04a54148ef.js"
+      crossorigin="anonymous"
+    ></script>
+     <script src="https://cdn.jsdelivr.net/npm/web3@0.16.0/dist/web3.js"></script> 
+     <!-- 
+    Author       : Ramaguru Radhakrishnan
+    Date Updated : 01.05.2020
+    -->
+    <script src=" https://cdn.jsdelivr.net/npm/web3@1.2.7/dist/web3.js"></script>
+    <script>
+        window.onload = function () 
+        {
+            // check to see if user has metamask addon installed on his browser. check to make sure web3 is defined
+            if (typeof web3 ==='undefined') 
+            {
+                web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
+                //web3 = new Web3(new web3.currentProvider);
+            }
+        }  
+    </script>
+    <script>
+         web3 = new Web3(new Web3.providers.WebsocketProvider("wss://ropsten.infura.io/ws/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
+         console.log("checking");
+         var subscription = web3.eth.subscribe('logs', {
+             address: '0x2Aad0cB9eB6C39508599E5aD866C18a2d90187Ff',
+             topics: ['0xa1cac0c02aaa8455b22f4edad5ea6218aeec41fd73afcf8668f7586accd1f901']
+             }, function(error, result){
+             console.log("inside if");   
+             if (!error)
+             {
+                console.log(hexToString (result.data));
+             }
+             else
+             {
+                console.log(error);
+             }
+         });
+        function hexToString (hex) 
+        {
+            var string = '';
+            for (var i = 128; i < hex.length; i += 2) 
+            {
+                string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+            }
+            return string.substring(1);
+        }
+        
+        //function to retrieve the last inserted value on the blockchain
+        function getValue()
+        {
+            console.log("Getting the value");
+
+            try 
+            {
+                // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
+                var abi = 
+                    [
+
+                    ]
+                //contract address. please change the address to your own
+                var contractaddress = '0x2A73aeD68cA411F38f34251AD81b4b6C599bb4df';
+                //instantiate and connect to contract address via Abi
+                var myAbi = web3.eth.contract(abi);
+                var myfunction = myAbi.at(contractaddress);
+                //call the get function of our SimpleStorage contract
+                myfunction.retreive.call(function (err, id) 
+                {
+                    if (err) 
+                    { 
+                        console.log(err)
+                    }
+                    if (id) 
+                    {
+                        //display value on the webpage
+                    }
+                });
+            }
+            catch (err) 
+            {
+                document.getElementById("xbalance").innerHTML = err;
+            }
+        }
+    </script> 
+  </head>
+  <body>
+    <div class="container-fluid">
+        <!-- Nav Bar -->
+  
+        <navbar class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+          <a class="navbar-brand nav-bar-text" href="#">Adayalam - ISSUER</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link nav-bar-text" href="#form-input"
+                  >Enter Details</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-bar-text" href="#query-container">Query</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-bar-text" href="#verify">Verify</a>
+              </li>
+            </ul>
+          </div>
+        </navbar>
+      </div>
+      <!--Register Issuer-->
+      <section id="form-input">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col col-lg-12">
+              <h2 class="jumbotron">Enter Issuer Details</h2>
+                <form>
+              <div class="form-group">
+                <label for="name">Enter Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Enter Name"
+                  name="name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="name">Enter Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  placeholder="Enter Address"
+                  name="address"
+                />
+              </div>
+              <div class="form-group">
+                <label for="name">Enter Issuer Fee</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="fee"
+                  placeholder="Enter Fee"
+                  name="fee"
+                />
+              </div>
+              <div class="form-group">
+                <label for="name">Enter Issuer Affiliated Organisation ID</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="iss_affln_org_id"
+                  placeholder="Enter Issuer Affiliated Organisation ID"
+                  name="iss_affln_org_id"
+                />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-light">Submit</button>
+          </form>
+        </div>
+       </div>
+      </section>
+      
+
+    <!--Register User-->
+    <section id="form-input">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col col-lg-12">
+            <h2 class="jumbotron">Enter User Details</h2>
+            <form>
+              <div class="form-group">
+                <label for="name">Enter Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Enter Name"
+                  name="name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="dob">Enter DOB</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dob"
+                  placeholder="Enter DOB"
+                  name="dob"
+                />
+              </div>
+              <div class="form-group">
+                  <label for="Bloodgrp">Enter Blood Group</label>
+                  <select name="Bloodgrp" id="Bloodgrp" class="form-control" placeholder="Enter blood group">
+                    <option>A Positive</option>
+                    <option>A Negative</option>
+                    <option>A Unknown</option>
+                   <option>B Positive</option>
+                    <option>B Negative</option>
+                    <option>B Unknown</option>
+                    <option>AB Positive</option>
+                    <option>AB Negative</option>
+                    <option>AB Unknown</option>
+                    <option>O Positive</option>
+                    <option>O Negative</option>
+                    <option>O Unknown</option>
+                    <option>Unknown</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                <label for="phno">Enter Phone Number</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phno"
+                  placeholder="Enter phone number"
+                  name="phno"
+                />
+              </div>
+              <div class="form-group">
+                  <label for="country">Enter Country</label>
+                      <select id="country" id="country" class="form-control" placeholder="Enter country">
+                                 <option value="Choose country">Choose Country</option>
+                                 <option value="India">India</option>
+                                 <option value="Pakistan">Pakistan</option>
+                                 <option value="Saudi Arabia">Saudi Arabia</option>
+                                 <option value="Singapore">Singapore</option>
+                                 <option value="United Kingdom">United Kingdom</option>
+                                 <option value="United States of America">United States of America</option>
+                                 
+                      </select>
+              </div>
+              <div class="form-group">
+                <label for="state">Enter State/Province</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="state"
+                  placeholder="Enter State/Province"
+                  name="state"
+                />
+              </div>
+              <div class="form-group">
+                <label for="nid">Enter National ID</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nid"
+                  aria-describedby="IDHelp"
+                  placeholder="Enter National ID"
+                  name="nid"
+                  pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
+                />
+                <small id="IDHelp" class="form-text text-muted"
+                  >Please enter in the format XXXX-XXXX-XXXX.</small
+                >
+              </div>
+              <div class="form-group">
+                <label for="biometric">Enter biometric details</label>
+                <div class="bio-details" style="height: 100px;width: 100px;border-radius: 2px;color:gray;border: 2px solid gray">
+                  <i class="fa fa-eye" style="font-size: 45px;padding-left: 23px;padding-top: 23px"></i>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-light">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+     <!--Display Issuer Details-->
+     <section id="display">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col col-lg-12">
+            <h1 class="jumbotron">Displaying Details of (Issuer ID)</h1>
+            
+            ID: <p id="issuer-ID">(Unique no.)</p><br>
+            Name: <p id="issuer-name">(Name) </p><br>
+            <p></p>
+            Address: <p id="issuer-address">(Address)</p><br>
+            Issuer Fee: <p id="issuer-fee">(Issuer Fee)</p><br>
+            Issuer Affiliated Organisation ID: <p id="issuer-affiliated-organisation-id">(Issuer Affiliated Organisation ID)</p><br>
+            Issuer Valid: <p id="issuer-valid">(Issuer Valid)</p><br>
+            <button type="submit" class="btn btn-light" onclick="retrieve()">Display</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+     <!--Display User Details-->
+     <section id="display">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col col-lg-12">
+            <h1 class="jumbotron">Displaying Details of (Aadhar Number)</h1>
+            <i class="fas fa-portrait fa-7x" ></i><br>
+            ID: <p id="user-ID">(Unique no.)</p><br>
+            Name: <p id="user-name">(Name) </p><br>
+            <p></p>
+            DOB: <p id="user-DOB">(DOB)</p><br>
+            Blood group: <p id="user-bgrp">(Blood grp)</p><br>
+            Phone number: <p id="user-phno">(Phone number)</p><br>
+            Country: <p id="user-country">(Country)</p><br>
+            State/Province: <p id="user-state">(Province)</p><br>
+            National ID: <p id="user-cid">(National ID)</p><br>
+            <button type="submit" class="btn btn-light" onclick="retrieve()">Display</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+  </html>

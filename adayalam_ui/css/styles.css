@@ -1,0 +1,38 @@
+/*
+	Author: Roopa Vidhya G,Harshavardhini B
+	Date Updated: 02.05.2020
+*/
+.nav-bar-text{
+    padding:20px;
+}
+.navbar-brand{
+    font-size: 25px;
+}
+#form-input{
+  
+    /*background-image: url(bg1.jpg);*/
+    padding:10% 20%;
+    /*background-color: 070d59;*/
+}
+
+#verify-id,#share-id,#block-issuer,#display{
+    float: center;
+    padding:10% 20%;
+    text-align:inline-block;
+}
+.big-font{
+    font-size: 4.5rem;
+    padding: 20% 5%;
+    color:#f7b633;
+}
+.ip-form{
+    background-color: #f7b633;
+    background-blend-mode: darken;
+    padding:5%;
+    border-radius: 10px;
+    /*opacity:0.5;*/
+}
+
+
+
+

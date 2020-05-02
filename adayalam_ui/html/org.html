@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adayalam</title>
+
+    <!--BootStrap-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <!--CSS-->
+   <link rel="stylesheet" href="../css/styles.css">
+    <!--icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--Font Awesome-->
+    <script
+      src="https://kit.fontawesome.com/04a54148ef.js"
+      crossorigin="anonymous"
+    ></script>
+     <script src="https://cdn.jsdelivr.net/npm/web3@0.16.0/dist/web3.js"></script> 
+ <!-- 
+    Author       : Ramaguru Radhakrishnan
+    Date Updated : 01.05.2020
+    -->
+    <script src=" https://cdn.jsdelivr.net/npm/web3@1.2.7/dist/web3.js"></script>
+    <script>
+        window.onload = function () 
+        {
+            // check to see if user has metamask addon installed on his browser. check to make sure web3 is defined
+            if (typeof web3 ==='undefined') 
+            {
+                web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
+                //web3 = new Web3(new web3.currentProvider);
+            }
+        }  
+    </script>
+    <script>
+         web3 = new Web3(new Web3.providers.WebsocketProvider("wss://ropsten.infura.io/ws/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
+         console.log("checking");
+         var subscription = web3.eth.subscribe('logs', {
+             address: '0x2Aad0cB9eB6C39508599E5aD866C18a2d90187Ff',
+             topics: ['0xa1cac0c02aaa8455b22f4edad5ea6218aeec41fd73afcf8668f7586accd1f901']
+             }, function(error, result){
+             console.log("inside if");   
+             if (!error)
+             {
+                console.log(hexToString (result.data));
+             }
+             else
+             {
+                console.log(error);
+             }
+         });
+        function hexToString (hex) 
+        {
+            var string = '';
+            for (var i = 128; i < hex.length; i += 2) 
+            {
+                string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+            }
+            return string.substring(1);
+        }
+        
+        //function to retrieve the last inserted value on the blockchain
+        function getValue()
+        {
+            console.log("Getting the value");
+
+            try 
+            {
+                // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
+                var abi = 
+                    [
+
+                    ]
+                //contract address. please change the address to your own
+                var contractaddress = '0x2A73aeD68cA411F38f34251AD81b4b6C599bb4df';
+                //instantiate and connect to contract address via Abi
+                var myAbi = web3.eth.contract(abi);
+                var myfunction = myAbi.at(contractaddress);
+                //call the get function of our SimpleStorage contract
+                myfunction.retreive.call(function (err, id) 
+                {
+                    if (err) 
+                    { 
+                        console.log(err)
+                    }
+                    if (id) 
+                    {
+                        //display value on the webpage
+                    }
+                });
+            }
+            catch (err) 
+            {
+                document.getElementById("xbalance").innerHTML = err;
+            }
+        }
+    </script> 
+   
+
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <!-- Nav Bar -->
+
+      <navbar class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+        <a class="navbar-brand nav-bar-text" href="#">Adayalam - ORGANIZATION</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarTogglerDemo01"
+          aria-controls="navbarTogglerDemo01"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link nav-bar-text" href="#form-input"
+                >Registration</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-bar-text" href="#block-issuer">Block Issuer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-bar-text" href="#display">Display</a>
+            </li>
+          </ul>
+        </div>
+      </navbar>
+    </div>
+
+    <!--Input Section-->
+    <section id="form-input">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col col-lg-12"> 
+            <h2 class="jumbotron">Organization Registration</h2>
+            <form>
+              <div class="form-group">
+                <label for="org-name">Enter Organization Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="org-name"
+                  placeholder="Enter Organization Name"
+                  name="name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="org-loc">Enter Organization Location (City)</label>
+                  <select id="org-loc" class="form-control" placeholder="Enter Location">
+                    <option value="Chennai">Chennai</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Noida">Noida</option>
+                    <option value="Coimbatore">Coimbatore</option>
+                  </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="org-type">Enter Organization Type</label>
+                  <select id="org-type" class="form-control" placeholder="Enter Organization Type">
+                    <option value="UIDAI">UIDAI</option>
+                  </select>
+              </div>
+              
+              <button type="submit" class="btn btn-light">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Block Issuer Section-->
+    <section id="block-issuer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col col-lg-12">
+            <h1 class="jumbotron">Block Issuer</h1>
+            <form>
+ 
+              <div class="form-group">
+                <label for="iss-id">Enter Issuer ID to be blocked</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="iss-id"
+                  placeholder="Enter Issuer ID"
+                  name="iss-id"
+                />
+              </div>
+              <button type="submit" class="btn btn-light">Block Issuer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Display Details-->
+    <section id="display">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col col-lg-12">
+            <h1 class="jumbotron">Details of Organization</h1>
+            <div class="form-group">
+                <label for="org-id">Enter Organization ID to be displayed</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="org-id"
+                  placeholder="Enter Organization ID"
+                  name="org-id"
+                />
+              </div>
+              <br>
+            <button type="submit" class="btn btn-light" onclick="retrieve()">Display</button>
+            <br><br>
+            Organization ID: <p id="org-ID">(Org id.)</p><br>
+            Organization Name: <p id="org-name">(Org Name) </p><br>
+            Organization Location: <p id="org-loc">(Org Loc)</p><br>
+            Organization Type: <p id="org-type">(Org Type)</p><br>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
