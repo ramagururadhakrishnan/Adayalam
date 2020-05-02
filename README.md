@@ -1,4 +1,4 @@
-# Arogya ![](https://img.shields.io/badge/Project-Nam-ff69b4.svg) ![](https://img.shields.io/badge/Namchain-WIP-Blue.svg)
+# Adayalam ![](https://img.shields.io/badge/Project-Nam-ff69b4.svg) ![](https://img.shields.io/badge/Namchain-WIP-Blue.svg)
 
 Blockchain Proof of Concept for Adayalam
 
