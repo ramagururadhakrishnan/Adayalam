@@ -1,3 +1,7 @@
+    <!-- 
+    Author       : Harshavarshini Balakrishnan
+    Date Updated : 16.05.2020
+    -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,96 +17,105 @@
       crossorigin="anonymous"
     />
 
-    <!--CSS--><link rel="stylesheet" href="../css/styles.css" >
+    <!--CSS-->
+    <link rel="stylesheet" href="../css/styles.css" />
     <!--icons-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <!--Font Awesome-->
     <script
       src="https://kit.fontawesome.com/04a54148ef.js"
       crossorigin="anonymous"
     ></script>
-     <script src="https://cdn.jsdelivr.net/npm/web3@0.16.0/dist/web3.js"></script> 
- <!-- 
+    <script src="https://cdn.jsdelivr.net/npm/web3@0.16.0/dist/web3.js"></script>
+    <!-- 
     Author       : Ramaguru Radhakrishnan
     Date Updated : 01.05.2020
     -->
     <script src=" https://cdn.jsdelivr.net/npm/web3@1.2.7/dist/web3.js"></script>
+    <script src = "../js/abi.js"></script>
+    
     <script>
-        window.onload = function () 
-        {
-            // check to see if user has metamask addon installed on his browser. check to make sure web3 is defined
-            if (typeof web3 ==='undefined') 
-            {
-                web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
-                //web3 = new Web3(new web3.currentProvider);
-            }
-        }  
+      window.onload = function () {
+        // check to see if user has metamask addon installed on his browser. check to make sure web3 is defined
+        if (typeof web3 === "undefined") {
+          web3 = new Web3(
+            new Web3.providers.HttpProvider(
+              "https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c"
+            )
+          );
+          //web3 = new Web3(new web3.currentProvider);
+        }
+      };
     </script>
     <script>
-         web3 = new Web3(new Web3.providers.WebsocketProvider("wss://ropsten.infura.io/ws/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
-         console.log("checking");
-         var subscription = web3.eth.subscribe('logs', {
-             address: '0x2Aad0cB9eB6C39508599E5aD866C18a2d90187Ff',
-             topics: ['0xa1cac0c02aaa8455b22f4edad5ea6218aeec41fd73afcf8668f7586accd1f901']
-             }, function(error, result){
-             console.log("inside if");   
-             if (!error)
-             {
-                console.log(hexToString (result.data));
-             }
-             else
-             {
-                console.log(error);
-             }
-         });
-        function hexToString (hex) 
+      web3 = new Web3(
+        new Web3.providers.WebsocketProvider(
+          "wss://ropsten.infura.io/ws/v3/cbd9dc11b30147e9a2cc974be655ef7c"
+        )
+      );
+      console.log("checking");
+      var subscription = web3.eth.subscribe(
+        "logs",
         {
-            var string = '';
-            for (var i = 128; i < hex.length; i += 2) 
-            {
-                string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-            }
-            return string.substring(1);
+          address: "0x2Aad0cB9eB6C39508599E5aD866C18a2d90187Ff",
+          topics: [
+            "0xa1cac0c02aaa8455b22f4edad5ea6218aeec41fd73afcf8668f7586accd1f901",
+          ],
+        },
+        function (error, result) {
+          console.log("inside if");
+          if (!error) {
+            console.log(hexToString(result.data));
+          } else {
+            console.log(error);
+          }
         }
-        
-        //function to retrieve the last inserted value on the blockchain
-        function getValue()
+      );
+      function hexToString(hex) {
+        var string = "";
+        for (var i = 128; i < hex.length; i += 2) {
+          string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+        }
+        return string.substring(1);
+      }
+
+      //function to retrieve the last inserted value on the blockchain
+      function registerVerifier()
         {
             console.log("Getting the value");
 
             try 
             {
                 // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
-                var abi = 
-                    [
-
-                    ]
-                //contract address. please change the address to your own
-                var contractaddress = '0x2A73aeD68cA411F38f34251AD81b4b6C599bb4df';
                 //instantiate and connect to contract address via Abi
-                var myAbi = web3.eth.contract(abi);
-                var myfunction = myAbi.at(contractaddress);
+                var myContract = new web3.eth.Contract(abi, contractaddress, {from: '0x97638f3eb797861CF0b30Ed4733e25c64E6459f8', gasPrice: '5000000'});
                 //call the get function of our SimpleStorage contract
-                myfunction.retreive.call(function (err, id) 
+                var verName = document.getElementById('ver-name').value;
+                var verLoc = document.getElementById('ver-loc').value;
+                var verType = document.getElementById('ver-type').value;
+                myContract.methods.ver_register(verName, verLoc, verType).call(function (err, result) 
                 {
                     if (err) 
                     { 
                         console.log(err)
                     }
-                    if (id) 
+                    if (result) 
                     {
                         //display value on the webpage
+                        console.log(result);
                     }
                 });
             }
             catch (err) 
             {
-                document.getElementById("xbalance").innerHTML = err;
+              console.log(err);
             }
         }
-    </script> 
-   
 
+    </script>
   </head>
 
   <body>
@@ -145,7 +158,7 @@
     <section id="form-input">
       <div class="container-fluid">
         <div class="row">
-          <div class="col col-lg-12"> 
+          <div class="col col-lg-12">
             <h2 class="jumbotron">Verifier Registration</h2>
             <form>
               <div class="form-group">
@@ -160,28 +173,36 @@
               </div>
               <div class="form-group">
                 <label for="ver-loc">Enter Verifier Location (City)</label>
-                  <select id="ver-loc" class="form-control" placeholder="Enter Location">
-                    <option value="Chennai">Chennai</option>
-                    <option value="Mumbai">Mumbai</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Kolkata">Kolkata</option>
-                    <option value="Bangalore">Bangalore</option>
-                    <option value="Noida">Noida</option>
-                    <option value="Coimbatore">Coimbatore</option>
-                  </select>
+                <select
+                  id="ver-loc"
+                  class="form-control"
+                  placeholder="Enter Location"
+                >
+                  <option value="Chennai">Chennai</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Bangalore">Bangalore</option>
+                  <option value="Noida">Noida</option>
+                  <option value="Coimbatore">Coimbatore</option>
+                </select>
               </div>
-              
+
               <div class="form-group">
                 <label for="ver-type">Enter Verification Type</label>
-                  <select id="ver-type" class="form-control" placeholder="Enter Organization Type">
-                    <option value="0">Educational Institutions</option>
-                    <option value="1">Hospitals</option>
-                    <option value="2">Banks</option>
-                    <option value="3">Government Organizations</option>
-                  </select>
+                <select
+                  id="ver-type"
+                  class="form-control"
+                  placeholder="Enter Organization Type"
+                >
+                  <option value="0">Educational Institutions</option>
+                  <option value="1">Hospitals</option>
+                  <option value="2">Banks</option>
+                  <option value="3">Government Organizations</option>
+                </select>
               </div>
-              
-              <button type="submit" class="btn btn-light">Register</button>
+
+              <button type="submit" class="btn btn-light" onclick=getvalue()>Register</button>
             </form>
           </div>
         </div>
@@ -195,7 +216,6 @@
           <div class="col col-lg-12">
             <h1 class="jumbotron">Verify User</h1>
             <form>
- 
               <div class="form-group">
                 <label for="iss-id">Enter User ID to be verified</label>
                 <input
@@ -220,22 +240,34 @@
           <div class="col col-lg-12">
             <h1 class="jumbotron">Details of Verifier</h1>
             <div class="form-group">
-                <label for="ver-id">Enter ID of the Verifier to be displayed</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ver-id"
-                  placeholder="Enter Verifier ID"
-                  name="ver-id"
-                />
-              </div>
-              <br>
-            <button type="submit" class="btn btn-light" onclick="retrieve()">Display</button>
-            <br><br>
-            Verifier ID: <p id="ver-ID">(Ver id.)</p><br>
-            Verifier Name: <p id="ver-name">(Ver Name) </p><br>
-            Verifier Location: <p id="ver-loc">(Ver Loc)</p><br>
-            Verification Type: <p id="ver-type">(Ver Type)</p><br>
+              <label for="ver-id"
+                >Enter ID of the Verifier to be displayed</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="ver-id"
+                placeholder="Enter Verifier ID"
+                name="ver-id"
+              />
+            </div>
+            <br />
+            <button type="submit" class="btn btn-light" onclick="retrieve()">
+              Display
+            </button>
+            <br /><br />
+            Verifier ID:
+            <p id="ver-ID">(Ver id.)</p>
+            <br />
+            Verifier Name:
+            <p id="ver-name">(Ver Name)</p>
+            <br />
+            Verifier Location:
+            <p id="ver-loc">(Ver Loc)</p>
+            <br />
+            Verification Type:
+            <p id="ver-type">(Ver Type)</p>
+            <br />
           </div>
         </div>
       </div>

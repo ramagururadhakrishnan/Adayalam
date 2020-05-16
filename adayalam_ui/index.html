@@ -1,0 +1,113 @@
+    <!-- 
+    Author       : Roopa Vidhya G
+    Date Updated : 16.05.2020
+    -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adayalam</title>
+
+    <!--BootStrap-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <!--CSS-->
+    <link rel="stylesheet" href="css/styles.css" >
+    <!--icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--Font Awesome-->
+    <script
+      src="https://kit.fontawesome.com/04a54148ef.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- 
+    Author       : Ramaguru Radhakrishnan
+    Date Updated : 01.05.2020
+    -->
+    <script src=" https://cdn.jsdelivr.net/npm/web3@1.2.7/dist/web3.js"></script>
+    <script src = "../js/abi.js"></script>
+    
+    <div class="container-fluid">
+        <!-- Nav Bar -->
+  
+        <navbar class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+          <a class="navbar-brand nav-bar-text" href="#">
+            
+            Adayalam
+              
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <!-- <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link nav-bar-text" href="#form-input"
+                  >Enter Details</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-bar-text" href="#query-container">Query</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-bar-text" href="#verify">Verify</a>
+              </li>
+            </ul>
+          </div> -->
+        </navbar>
+      </div>
+     </head>
+
+<section id="form-input">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-lg-3 col-md-6">
+     <form class="home-form">
+    <img src="images/USER.png" height="250px">
+    <button name= "uiUserType" type="submit"value="User" class="btn btn-light home-buttons" >
+      <a href="html/user.html">User</a>
+    </button>
+  </form>
+  </div>
+  <div class="col col-lg-3 col-md-6">
+  <form class="home-form">
+    <img src="images/ISSUER.jpg" height="250px">
+      <button name= "uiUserType" type="submit" value="Issuer"  class="btn btn-light home-buttons">
+        <a href="html/issuer.html">Issuer</a>
+      </button>
+    </form>
+  </div>
+  <div class="col col-lg-3 col-md-6">
+  <form class="home-form">
+    <img src="images/ORGANISATION.png" height="250px">
+    <button name= "uiUserType" type="submit" value="Organisation" class="btn btn-light home-buttons">
+      <a href="html/org.html">Organisation</a>
+    </button>
+  </form>
+  </div>
+  <div class="col col-lg-3 col-md-6">
+  <form class="home-form">
+    <img src="images/VERIFIER.png" height="250px">
+      <button name= "uiUserType" type="submit" value="Verifier" class="btn btn-light home-buttons">
+        <a href="html/verifier.html">Verifier</a>
+      </button>
+    </form>
+    </div>
+</section> 
+</body>
+</html>

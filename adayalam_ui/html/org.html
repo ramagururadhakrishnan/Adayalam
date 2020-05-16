@@ -1,3 +1,7 @@
+    <!-- 
+    Author       : Harshavarshini Balakrishnan
+    Date Updated : 16.05.2020
+    -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,6 +32,8 @@
     Date Updated : 01.05.2020
     -->
     <script src=" https://cdn.jsdelivr.net/npm/web3@1.2.7/dist/web3.js"></script>
+    <script src = "../js/abi.js"></script>
+    
     <script>
         window.onload = function () 
         {
@@ -67,40 +73,38 @@
         }
         
         //function to retrieve the last inserted value on the blockchain
-        function getValue()
+        function registerOrganisation()
         {
             console.log("Getting the value");
 
             try 
             {
                 // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
-                var abi = 
-                    [
-
-                    ]
-                //contract address. please change the address to your own
-                var contractaddress = '0x2A73aeD68cA411F38f34251AD81b4b6C599bb4df';
                 //instantiate and connect to contract address via Abi
-                var myAbi = web3.eth.contract(abi);
-                var myfunction = myAbi.at(contractaddress);
+                var myContract = new web3.eth.Contract(abi, contractaddress, {from: '0x97638f3eb797861CF0b30Ed4733e25c64E6459f8', gasPrice: '5000000'});
                 //call the get function of our SimpleStorage contract
-                myfunction.retreive.call(function (err, id) 
+                var orgName = document.getElementById('org-name').value;
+                var orgLoc = document.getElementById('org-loc').value;
+                var orgType = document.getElementById('org-type').value;
+                myContract.methods.org_register(orgName,orgLoc,orgType).call(function (err, result) 
                 {
                     if (err) 
                     { 
                         console.log(err)
                     }
-                    if (id) 
+                    if (result) 
                     {
                         //display value on the webpage
+                        console.log(result);
                     }
                 });
             }
             catch (err) 
             {
-                document.getElementById("xbalance").innerHTML = err;
+              console.log(err);
             }
         }
+
     </script> 
    
 
@@ -175,11 +179,11 @@
               <div class="form-group">
                 <label for="org-type">Enter Organization Type</label>
                   <select id="org-type" class="form-control" placeholder="Enter Organization Type">
-                    <option value="UIDAI">UIDAI</option>
+                    <option value="0">UIDAI</option>
                   </select>
               </div>
               
-              <button type="submit" class="btn btn-light">Register</button>
+              <button type="submit" class="btn btn-light" onclick="registerOrganisation()">Register</button>
             </form>
           </div>
         </div>

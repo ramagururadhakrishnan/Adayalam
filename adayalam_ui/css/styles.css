@@ -2,6 +2,7 @@
 	Author: Roopa Vidhya G,Harshavardhini B
 	Date Updated: 02.05.2020
 */
+
 .nav-bar-text{
     padding:20px;
 }
@@ -33,6 +34,16 @@
     /*opacity:0.5;*/
 }
 
+.home-buttons{
+    margin-top: 10%;
+    padding-top: 10%;
+    font-size: xx-large;
+    text-align: center;
+}
 
+.home-form{
+    text-align: center;
+    padding:10px;
+}
 
 

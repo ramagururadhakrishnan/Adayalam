@@ -1,3 +1,8 @@
+    <!-- 
+    Author       : Harshavarshini Balakrishnan
+    Date Updated : 16.05.2020
+    -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,12 +27,12 @@
       src="https://kit.fontawesome.com/04a54148ef.js"
       crossorigin="anonymous"
     ></script>
-     <script src="https://cdn.jsdelivr.net/npm/web3@0.16.0/dist/web3.js"></script> 
-     <!-- 
+    <!-- 
     Author       : Ramaguru Radhakrishnan
     Date Updated : 01.05.2020
     -->
     <script src=" https://cdn.jsdelivr.net/npm/web3@1.2.7/dist/web3.js"></script>
+    <script src = "../js/abi.js"></script>
     <script>
         window.onload = function () 
         {
@@ -67,38 +72,74 @@
         }
         
         //function to retrieve the last inserted value on the blockchain
-        function getValue()
+        function registerIssuer()
         {
             console.log("Getting the value");
 
             try 
             {
                 // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
-                var abi = 
-                    [
-
-                    ]
-                //contract address. please change the address to your own
-                var contractaddress = '0x2A73aeD68cA411F38f34251AD81b4b6C599bb4df';
                 //instantiate and connect to contract address via Abi
-                var myAbi = web3.eth.contract(abi);
-                var myfunction = myAbi.at(contractaddress);
+                var myContract = new web3.eth.Contract(issuerABI, issuerSCAddr, {from: '0x97638f3eb797861CF0b30Ed4733e25c64E6459f8', gasPrice: '5000000'});
                 //call the get function of our SimpleStorage contract
-                myfunction.retreive.call(function (err, id) 
+                var name = document.getElementById('iss-name').value;
+                var address = document.getElementById('iss-address').value;
+                var fee = document.getElementById('iss-fee').value;
+                var iss_affln_org_id = [document.getElementById('iss_affln_org_id').value];
+                myContract.methods.iss_register(name,address,fee,iss_affln_org_id).call(function (err, result) 
                 {
                     if (err) 
                     { 
                         console.log(err)
                     }
-                    if (id) 
+                    if (result) 
                     {
                         //display value on the webpage
+                        console.log(result);
                     }
                 });
             }
             catch (err) 
             {
-                document.getElementById("xbalance").innerHTML = err;
+              console.log(err);
+            }
+        }
+
+        function registerUser()
+        {
+            console.log("Getting the value");
+
+            try 
+            {
+                // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
+                
+                //instantiate and connect to contract address via Abi
+                var myContract = new web3.eth.Contract(issuerABI, issuerSCAddr, {from: '0x97638f3eb797861CF0b30Ed4733e25c64E6459f8', gasPrice: '5000000'});
+                //call the get function of our SimpleStorage contract
+                var name = document.getElementById('user-name').value;
+                var dob = document.getElementById('user-dob').value;
+                var bgrp = document.getElementById('user-Bloodgrp').value;
+                var country = document.getElementById('user-country').value;
+                var nid = document.getElementById('user-nid').value;
+                var phno = document.getElementById('user-phno').value;
+                var state = document.getElementById('user-state').value;
+                
+                myContract.methods.issue_id(name,dob,bgrp,country,state,phno,nid,"ABCD").call(function (err, result) 
+                {
+                    if (err) 
+                    { 
+                        console.log(err)
+                    }
+                    if (result) 
+                    {
+                        //display value on the webpage
+                        console.log(result);
+                    }
+                });
+            }
+            catch (err) 
+            {
+              console.log(err);
             }
         }
     </script> 
@@ -150,7 +191,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="name"
+                  id="iss-name"
                   placeholder="Enter Name"
                   name="name"
                 />
@@ -160,7 +201,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="address"
+                  id="iss-address"
                   placeholder="Enter Address"
                   name="address"
                 />
@@ -170,7 +211,7 @@
                 <input
                   type="number"
                   class="form-control"
-                  id="fee"
+                  id="iss-fee"
                   placeholder="Enter Fee"
                   name="fee"
                 />
@@ -186,7 +227,7 @@
                 />
               </div>
             </div>
-            <button type="submit" class="btn btn-light">Submit</button>
+            <button type="button" class="btn btn-light" onclick="registerIssuer()">Submit</button>
           </form>
         </div>
        </div>
@@ -205,7 +246,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="name"
+                  id="user-name"
                   placeholder="Enter Name"
                   name="name"
                 />
@@ -215,14 +256,14 @@
                 <input
                   type="date"
                   class="form-control"
-                  id="dob"
+                  id="user-dob"
                   placeholder="Enter DOB"
                   name="dob"
                 />
               </div>
               <div class="form-group">
                   <label for="Bloodgrp">Enter Blood Group</label>
-                  <select name="Bloodgrp" id="Bloodgrp" class="form-control" placeholder="Enter blood group">
+                  <select name="Bloodgrp" id="user-Bloodgrp" class="form-control" placeholder="Enter blood group">
                     <option>A Positive</option>
                     <option>A Negative</option>
                     <option>A Unknown</option>
@@ -243,14 +284,14 @@
                 <input
                   type="tel"
                   class="form-control"
-                  id="phno"
+                  id="user-phno"
                   placeholder="Enter phone number"
                   name="phno"
                 />
               </div>
               <div class="form-group">
                   <label for="country">Enter Country</label>
-                      <select id="country" id="country" class="form-control" placeholder="Enter country">
+                      <select id="user-country" class="form-control" placeholder="Enter country">
                                  <option value="Choose country">Choose Country</option>
                                  <option value="India">India</option>
                                  <option value="Pakistan">Pakistan</option>
@@ -266,7 +307,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="state"
+                  id="user-state"
                   placeholder="Enter State/Province"
                   name="state"
                 />
@@ -276,15 +317,13 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="nid"
+                  id="user-nid"
                   aria-describedby="IDHelp"
                   placeholder="Enter National ID"
                   name="nid"
-                  pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
+                  
                 />
-                <small id="IDHelp" class="form-text text-muted"
-                  >Please enter in the format XXXX-XXXX-XXXX.</small
-                >
+                
               </div>
               <div class="form-group">
                 <label for="biometric">Enter biometric details</label>
@@ -292,7 +331,7 @@
                   <i class="fa fa-eye" style="font-size: 45px;padding-left: 23px;padding-top: 23px"></i>
                 </div>
               </div>
-              <button type="submit" class="btn btn-light">Submit</button>
+              <button type="button" class="btn btn-light"onclick="registerUser()">Submit</button>
             </form>
           </div>
         </div>
