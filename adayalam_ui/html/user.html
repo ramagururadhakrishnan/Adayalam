@@ -1,6 +1,6 @@
     <!-- 
     Author       : Harshavarshini Balakrishnan
-    Date Updated : 16.05.2020
+    Date Updated : 05.06.2020
     -->
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Adayalam</title>
+    <title>Adayalam | User</title>
 
     <!--BootStrap-->
     <link
@@ -27,28 +27,51 @@
       src="https://kit.fontawesome.com/04a54148ef.js"
       crossorigin="anonymous"
     ></script>
-     <script src="https://cdn.jsdelivr.net/npm/web3@0.16.0/dist/web3.js"></script> 
- <!-- 
+    
+
+	<!-- 
     Author       : Ramaguru Radhakrishnan
-    Date Updated : 01.05.2020
+    Date Updated : 18.05.2020
     -->
-    <script src=" https://cdn.jsdelivr.net/npm/web3@1.2.7/dist/web3.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/web3/dist/web3.js"></script>
     <script src = "../js/abi.js"></script>
     
     <script>
-        window.onload = function () 
-        {
-            // check to see if user has metamask addon installed on his browser. check to make sure web3 is defined
-            if (typeof web3 ==='undefined') 
-            {
-                web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
-                //web3 = new Web3(new web3.currentProvider);
-            }
-        }  
+        var account;
+		window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		// Legacy DApp browsers
+		else if (window.web3) {
+			//window.web3 = new Web3(web3.currentProvider);
+			window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+			}
+		// Non-DApp browsers
+		else {
+			console.log('Non-Ethereum browser detected. Please install MetaMask');
+			}
+			
+			});
     </script>
     <script>
          web3 = new Web3(new Web3.providers.WebsocketProvider("wss://ropsten.infura.io/ws/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
-         console.log("checking");
+
          var subscription = web3.eth.subscribe('logs', {
              address: '0x2Aad0cB9eB6C39508599E5aD866C18a2d90187Ff',
              topics: ['0xa1cac0c02aaa8455b22f4edad5ea6218aeec41fd73afcf8668f7586accd1f901']
@@ -63,17 +86,17 @@
                 console.log(error);
              }
          });
-        function hexToString (hex) 
-        {
-            var string = '';
-            for (var i = 128; i < hex.length; i += 2) 
-            {
-                string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-            }
-            return string.substring(1);
-        }
         
-        //function to retrieve the last inserted value on the blockchain
+		
+		function hexToString (hex) 
+					{
+						var tobeconverted = '';
+						tobeconverted = parseInt(hex).toString();
+						console.log(tobeconverted);
+						return tobeconverted;
+					}
+        
+        //function to 
         function getVerified()
         {
             console.log("Getting the value");
@@ -82,11 +105,13 @@
             {
                 // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
                 //instantiate and connect to contract address via Abi
-                var myContract = new web3.eth.Contract(abi, contractaddress, {from: '0x97638f3eb797861CF0b30Ed4733e25c64E6459f8', gasPrice: '5000000'});
-                //call the get function of our SimpleStorage contract
+                var myContract = new web3.eth.Contract(abi, contractaddress, {from: account, gasPrice: '5000000', gas:'3000000'});
+				
+                //call the get function of User contract
                 var vid = document.getElementById('vid').value;
                 var verPurp = document.getElementById('ver-purp').value;
-                myContract.methods.share_id(vid,verPurp).call(function (err, result) 
+				
+                myContract.methods.share_id(vid,verPurp).send(function (err, result) 
                 {
                     if (err) 
                     { 
